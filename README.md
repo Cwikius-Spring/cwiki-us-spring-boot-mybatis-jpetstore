@@ -1,8 +1,8 @@
-# mybatis-spring-boot-jpetstore
+# cwiki-us-spring-boot-mybatis-jpetstore
 
-[![Build Status](https://travis-ci.org/kazuki43zoo/mybatis-spring-boot-jpetstore.svg?branch=master)](https://travis-ci.org/kazuki43zoo/mybatis-spring-boot-jpetstore)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/6ac9fe028b1c49a4a61e27cc54cb3b19)](https://www.codacy.com/app/kazuki43zoo/mybatis-spring-boot-jpetstore?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=kazuki43zoo/mybatis-spring-boot-jpetstore&amp;utm_campaign=Badge_Grade)
-[![Coverage Status](https://coveralls.io/repos/github/kazuki43zoo/mybatis-spring-boot-jpetstore/badge.svg?branch=master)](https://coveralls.io/github/kazuki43zoo/mybatis-spring-boot-jpetstore?branch=master)
+[![Build Status](https://travis-ci.org/kazuki43zoo/mybatis-spring-boot-jpetstore.svg?branch=1.0.x)](https://travis-ci.org/kazuki43zoo/mybatis-spring-boot-jpetstore)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/3730774168704aff8d46b0ebd7f624e2)](https://www.codacy.com/app/yuchenghu/cwiki-us-spring-boot-mybatis-jpetstore?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=cwiki-us-spring-guides/cwiki-us-spring-boot-mybatis-jpetstore&amp;utm_campaign=Badge_Grade)
+[![Coverage Status](https://coveralls.io/repos/github/kazuki43zoo/mybatis-spring-boot-jpetstore/badge.svg?branch=1.0.x)](https://coveralls.io/github/kazuki43zoo/mybatis-spring-boot-jpetstore?branch=1.0.x)
 
 This sample is a web application built on MyBatis, Spring Boot(Spring MVC, Spring Security) and Thymeleaf.
 This is another implementation of MyBatis JPetStore sample application (https://github.com/mybatis/jpetstore-6).
@@ -26,17 +26,17 @@ Let's play on [https://jpetstore.cfapps.io/](https://jpetstore.cfapps.io/).
 
 ## Stacks
 
-* MyBatis Spring Boot Starter 2.0 (MyBatis 3.5, MyBatis Spring 2.0) SNAPSHOT version
-* Spring Boot 2.1 (Spring Framework 5.1, Spring Security 5.1)
+* MyBatis Spring Boot Starter 1.2 (MyBatis 3.4, MyBatis Spring 1.3)
+* Spring Boot 1.4 (Spring Framework 4.3)
+* Spring Security 4.2
 * Thymeleaf 3.0
-* Hibernate Validator 6.0 (Bean Validation 2.0)
-* HSQLDB 2.4 (Embed Database)
-* Flyway 5.2 (DB Migration)
-* Tomcat 9.0 (Embed Application Server)
+* HSQLDB 2.3 (Embed Database)
+* Flyway 3.2 (DB Migration)
+* Tomcat 8.5 (Embed Application Server)
 * Groovy 2.4 (Use multiple line string on MyBatis Mapper method)
-* Lombok 1.18
-* Selenide 5.1
-* Selenium 3.14
+* Lombok 1.16
+* Selenide 4.11
+* Selenium 3.11
 * etc ...
 
 ## Run using Maven command
@@ -65,7 +65,7 @@ Let's play on [https://jpetstore.cfapps.io/](https://jpetstore.cfapps.io/).
 * Run java command
 
   ```
-  $ java -jar target/mybatis-spring-boot-jpetstore-2.0.0-SNAPSHOT.jar
+  $ java -jar target/mybatis-spring-boot-jpetstore-1.0.2-SNAPSHOT.jar
   ```
 
 ## Perform integration test using Maven command
