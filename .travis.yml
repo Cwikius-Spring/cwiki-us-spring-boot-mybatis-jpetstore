@@ -3,25 +3,17 @@ sudo: required
 language: java
 
 jdk:
-  - openjdk8
   - oraclejdk8
-  - oraclejdk11
-  - openjdk11
-  - openjdk12
+
+addons:
+  firefox: latest
+
+install: true
+
+script:
+  - mvn -U package jacoco:report coveralls:report
 
 cache:
   directories:
     - $HOME/.m2
     - $HOME/.sonar/cache
-
-install: true
-
-script:
-  - |
-    if [ "$TRAVIS_BRANCH" != "master" -o "$TRAVIS_PULL_REQUEST" == "true" ]; then
-        ./mvnw -U verify jacoco:report coveralls:report
-    fi
-  - |
-    if [ "$TRAVIS_PULL_REQUEST" == "false" -a "$TRAVIS_BRANCH" == "master" ]; then
-        ./mvnw -U verify jacoco:report coveralls:report sonar:sonar -Dsonar.host.url=https://sonarqube.com -Dsonar.login=${SONAR_TOKEN}
-    fi
