@@ -54,7 +54,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.5.21.RELEASE</version>
+        <version>2.1.5.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
@@ -62,24 +62,18 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
-        <mybatis-spring-boot-starter.version>1.2.2</mybatis-spring-boot-starter.version>
-        <thymeleaf.version>3.0.9.RELEASE</thymeleaf.version>
-        <thymeleaf-layout-dialect.version>2.2.2</thymeleaf-layout-dialect.version>
-        <thymeleaf-extras-springsecurity4.version>3.0.2.RELEASE</thymeleaf-extras-springsecurity4.version>
-        <thymeleaf-extras-java8time.version>3.0.1.RELEASE</thymeleaf-extras-java8time.version>
-        <spring-security.version>4.2.5.RELEASE</spring-security.version>
-        <spring.version>4.3.16.RELEASE</spring.version>
+        <mybatis-spring-boot-starter.version>2.0.0</mybatis-spring-boot-starter.version>
         <!-- for test -->
-        <selenide.version>4.11.2</selenide.version>
-        <selenium.version>3.11.0</selenium.version>
-        <htmlunit.version>2.28</htmlunit.version>
+        <selenide.version>5.2.3</selenide.version>
         <!-- for plugins -->
         <license-maven-plugin.version>3.0</license-maven-plugin.version>
         <coveralls-maven-plugin.version>4.3.0</coveralls-maven-plugin.version>
-        <jacoco-maven-plugin.version>0.7.9</jacoco-maven-plugin.version>
+        <jacoco-maven-plugin.version>0.8.3</jacoco-maven-plugin.version>
+        <owasp-dependency-check-plugin.version>4.0.2</owasp-dependency-check-plugin.version>
     </properties>
 
     <dependencies>
+
         <dependency>
             <groupId>org.mybatis.spring.boot</groupId>
             <artifactId>mybatis-spring-boot-starter</artifactId>
@@ -91,15 +85,27 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.thymeleaf.extras</groupId>
-            <artifactId>thymeleaf-extras-java8time</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
         <dependency>
             <groupId>org.thymeleaf.extras</groupId>
-            <artifactId>thymeleaf-extras-springsecurity4</artifactId>
+            <artifactId>thymeleaf-extras-springsecurity5</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>nz.net.ultraq.thymeleaf</groupId>
+            <artifactId>thymeleaf-layout-dialect</artifactId>
         </dependency>
         <dependency>
             <groupId>org.codehaus.groovy</groupId>
@@ -108,10 +114,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-actuator</artifactId>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -147,7 +149,6 @@
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>htmlunit-driver</artifactId>
-            <version>2.28</version>
             <scope>test</scope>
         </dependency>
 
@@ -248,15 +249,104 @@
                 <artifactId>coveralls-maven-plugin</artifactId>
                 <version>${coveralls-maven-plugin.version}</version>
             </plugin>
+            <plugin>
+                <groupId>org.owasp</groupId>
+                <artifactId>dependency-check-maven</artifactId>
+                <version>${owasp-dependency-check-plugin.version}</version>
+                <configuration>
+                    <failBuildOnCVSS>7</failBuildOnCVSS>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 
+    <profiles>
+        <profile>
+            <id>jdk11</id>
+            <activation>
+                <jdk>11</jdk>
+            </activation>
+            <properties>
+                <!-- coverall 4.3.0 or previous version does not work on Java 9+, see https://github.com/trautonen/coveralls-maven-plugin/issues/112 -->
+                <coveralls.skip>true</coveralls.skip>
+                <sonar.skip>true</sonar.skip>
+                <java.version>11</java.version>
+            </properties>
+        </profile>
+        <profile>
+            <id>jdk12</id>
+            <activation>
+                <jdk>12</jdk>
+            </activation>
+            <properties>
+                <!-- coverall 4.3.0 or previous version does not work on Java 9+, see https://github.com/trautonen/coveralls-maven-plugin/issues/112 -->
+                <coveralls.skip>true</coveralls.skip>
+                <sonar.skip>true</sonar.skip>
+                <java.version>12</java.version>
+            </properties>
+        </profile>
+    </profiles>
+
     <repositories>
         <repository>
-            <id>sonatype-oss-snapshots</id>
-            <name>Sonatype OSS Snapshots Repository</name>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+            <id>maven-ossez</id>
+            <name>OSSEZ Repository</name>
+            <url>https://maven.ossez.com/repository/internal</url>
         </repository>
+        <!--
+        <repository>
+            <id>spring-snapshots</id>
+            <name>Spring Snapshots</name>
+            <url>https://repo.spring.io/libs-snapshot</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>spring-milestones</id>
+            <name>Spring Milestones</name>
+            <url>https://repo.spring.io/libs-milestone</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        -->
     </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>maven-ossez</id>
+            <name>OSSEZ Repository</name>
+            <url>https://maven.ossez.com/repository/internal</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </pluginRepository>
+        <!--
+        <pluginRepository>
+            <id>spring-snapshots</id>
+            <name>Spring Snapshots</name>
+            <url>https://repo.spring.io/libs-snapshot</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </pluginRepository>
+        <pluginRepository>
+            <id>spring-milestones</id>
+            <name>Spring Milestones</name>
+            <url>https://repo.spring.io/libs-milestone</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </pluginRepository>
+        -->
+    </pluginRepositories>
 
 </project>
